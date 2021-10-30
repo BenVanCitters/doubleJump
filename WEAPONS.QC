@@ -647,10 +647,9 @@ void() OrbThink =
 			launch_spike(self.origin, dir);
 		}
 
-		moveTarget = self.owner.origin + v_up*100;
+		moveTarget = self.owner.origin + normalize('0 0 1')*100;
 		self.velocity = normalize(moveTarget-self.origin)*500;
 		self.nextthink = time + 0.3;
-		
 		
 		self.think = OrbThink;
 	}	
@@ -700,7 +699,7 @@ void() W_FireOrb =
 // set missile duration
 	missile.nextthink = time + 0.1;
 	missile.think = OrbThink;
-	missile.ammo_nails = 100;
+	missile.ammo_nails = 45;
 	setmodel (missile, "progs/grenade.mdl");
 	setsize (missile, '0 0 0', '0 0 0');		
 	setorigin (missile, self.origin);

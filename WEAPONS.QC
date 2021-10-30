@@ -541,6 +541,9 @@ void() GrenadeTouch =
 		self.avelocity = '0 0 0';
 };
 
+
+
+
 /*
 ================
 W_FireGrenade
@@ -589,6 +592,120 @@ void() W_FireGrenade =
 	setsize (missile, '0 0 0', '0 0 0');		
 	setorigin (missile, self.origin);
 };
+
+
+entity(entity me, float radius, entity ignore) GetNextTarget =
+{
+	local	float 	minDist, curDist;
+	local	entity	head, closest;
+	
+	//local	vector	org;
+
+	head = findradius(me.origin, radius);
+	minDist = 99999;
+	while (head)
+	{
+		if ((head != ignore) && (head != me))
+		{
+			if (head.takedamage)
+			{
+				curDist = vlen(head.origin - me.origin);
+				if(curDist < minDist)
+				{
+					closest = head;
+					minDist = curDist;
+				}
+			}
+		}
+		head = head.chain;
+	}
+	return closest;
+};
+
+void(vector org, vector dir) launch_spike;
+
+void() OrbThink =
+{
+	local entity nextTarget;
+	local vector dir;
+	local vector moveTarget;
+	
+	if(self.ammo_nails < 1)
+	{
+		BecomeExplosion();
+		self.nextthink = time + 0.4;
+		newmis.think = SUB_Remove;
+	}
+	else
+	{
+		self.ammo_nails = self.ammo_nails -1;
+		nextTarget = GetNextTarget(self, 1000, self.owner);
+		
+		if(nextTarget && (nextTarget != self))
+		{
+			dir = nextTarget.origin - self.origin;
+			launch_spike(self.origin, dir);
+		}
+
+		moveTarget = self.owner.origin + v_up*100;
+		self.velocity = normalize(moveTarget-self.origin)*500;
+		self.nextthink = time + 0.3;
+		
+		
+		self.think = OrbThink;
+	}	
+}
+
+
+/*
+================
+W_FireGrenade
+================
+*/
+void() W_FireOrb =
+{
+	local	entity missile, mpuff;
+	
+	self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
+	
+	sound (self, CHAN_WEAPON, "weapons/grenade.wav", 1, ATTN_NORM);
+
+	self.punchangle_x = -2;
+
+	missile = spawn ();
+	missile.owner = self;
+	missile.movetype = MOVETYPE_FLYMISSILE;
+	missile.solid = SOLID_BBOX;
+	missile.classname = "orb";
+		
+// set missile speed	
+
+	makevectors (self.v_angle);
+
+	if (self.v_angle_x)
+		missile.velocity = v_forward*600 + v_up * 200 + crandom()*v_right*10 + crandom()*v_up*10;
+	else
+	{
+		missile.velocity = aim(self, 10000);
+		missile.velocity = missile.velocity * 600;
+		missile.velocity_z = 200;
+	}
+
+	missile.avelocity = '300 300 300';
+
+	missile.angles = vectoangles(missile.velocity);
+	
+	//missile.touch = GrenadeTouch;
+	
+// set missile duration
+	missile.nextthink = time + 0.1;
+	missile.think = OrbThink;
+	missile.ammo_nails = 100;
+	setmodel (missile, "progs/grenade.mdl");
+	setsize (missile, '0 0 0', '0 0 0');		
+	setorigin (missile, self.origin);
+};
+
 
 
 //=============================================================================
@@ -931,7 +1048,7 @@ void() W_Attack =
 	else if (self.weapon == IT_GRENADE_LAUNCHER)
 	{
 		player_rocket1();
-		W_FireGrenade();
+		W_FireOrb();
 		self.attack_finished = time + 0.6;
 	}
 	else if (self.weapon == IT_ROCKET_LAUNCHER)

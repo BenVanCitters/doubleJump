@@ -491,7 +491,7 @@ void() weapon_touch =
 // remove it in single player, or setup for respawning in deathmatch
 	self.model = string_null;
 	self.solid = SOLID_NOT;
-	if (deathmatch == 1)
+	if (deathmatch)
 		self.nextthink = time + 30;
 	self.think = SUB_regen;
 	

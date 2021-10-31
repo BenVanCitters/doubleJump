@@ -750,16 +750,44 @@ void() PlayerJump =
 		return;
 	}
 
-	if (!(self.flags & FL_ONGROUND))
-		return;
+	//if (!(self.flags & FL_ONGROUND))
+		//return;
 
 	if ( !(self.flags & FL_JUMPRELEASED) )
 		return;		// don't pogo stick
 
 	self.flags = self.flags - (self.flags & FL_JUMPRELEASED);
 
-	self.flags = self.flags - FL_ONGROUND;	// don't stairwalk
+	if (self.flags & FL_ONGROUND)
+	{
+		self.flags = self.flags - FL_ONGROUND;	// don't stairwalk
+		
+		if (self.flags & FL_JUMP1)
+		{
+			self.flags = self.flags - FL_JUMP1;
+		}
+		if (self.flags & FL_JUMP2)
+		{
+			self.flags = self.flags - FL_JUMP2;
+		}
+		
+	}
 	
+	if (!(self.flags & FL_JUMP1))
+	{
+		self.flags = self.flags | FL_JUMP1;
+		sprint (self, "1");
+	}
+	else if (!(self.flags & FL_JUMP2))
+	{
+		self.flags = self.flags | FL_JUMP2;
+		sprint (self, "2");
+	}
+	else
+	{
+		return;
+	}
+	//sprint (self, "xJumpingx");
 	self.button2 = 0;
 // player jumping sound
 	sound (self, CHAN_BODY, "player/plyrjmp8.wav", 1, ATTN_NORM);

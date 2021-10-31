@@ -240,7 +240,8 @@ float	FL_ONGROUND				= 512;	// standing on something
 float	FL_PARTIALGROUND		= 1024;	// not all corners are valid
 float	FL_WATERJUMP			= 2048;	// player jumping out of water
 float	FL_JUMPRELEASED			= 4096;	// for jump debouncing
-float	FL_JUMP2			= 8192;	// for jump debouncing
+float	FL_JUMP1			= 8192;	// for jump debouncing
+float	FL_JUMP2			= 16384;	// for jump debouncing
 
 // edict.movetype values
 float	MOVETYPE_NONE			= 0;	// never moves

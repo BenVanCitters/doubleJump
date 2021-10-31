@@ -190,12 +190,9 @@ void() health_touch =
 	}
 	else
 	{
-		if (deathmatch != 2)		// deathmatch 2 is the silly old rules
-		{
-			if (deathmatch)
-				self.nextthink = time + 20;
-			self.think = SUB_regen;
-		}
+		if (deathmatch)
+			self.nextthink = time + 20;
+		self.think = SUB_regen;
 	}
 	
 	activator = other;
@@ -403,7 +400,7 @@ void() weapon_touch =
 	best = W_BestWeapon();
 	self = stemp;
 
-	if (deathmatch == 2 || coop)
+	if (deathmatch == 3 || coop)
 		leave = 1;
 	else
 		leave = 0;

@@ -51,7 +51,7 @@ void() W_FireAxe =
 	{
 		trace_ent.axhitme = 1;
 		SpawnBlood (org, '0 0 0', 20);
-		T_Damage (trace_ent, self, self, 20);
+		T_Damage (trace_ent, self, self, 40);
 	}
 	else
 	{	// hit wall
@@ -272,7 +272,7 @@ void() W_FireShotgun =
 	
 	self.currentammo = self.ammo_shells = self.ammo_shells - 1;
 	dir = aim (self, 100000);
-	FireBullets (6, dir, '0.04 0.04 0');
+	FireBullets (8, dir, '0.04 0.04 0');
 };
 
 
@@ -1031,7 +1031,7 @@ void() W_Attack =
 	else if (self.weapon == IT_GRENADE_LAUNCHER)
 	{
 		player_rocket1();
-		W_FireOrb();
+		W_FireGrenade();
 		self.attack_finished = time + 0.6;
 	}
 	else if (self.weapon == IT_ROCKET_LAUNCHER)

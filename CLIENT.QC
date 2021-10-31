@@ -773,15 +773,24 @@ void() PlayerJump =
 		
 	}
 	
+	//using the global flags to hold whether the player is jumping the first
+	//or second time
 	if (!(self.flags & FL_JUMP1))
 	{
 		self.flags = self.flags | FL_JUMP1;
-		sprint (self, "1");
+		
+		self.velocity_z = self.velocity_z + 280;
 	}
 	else if (!(self.flags & FL_JUMP2))
 	{
+		
+		self.velocity_z = self.velocity_z + 280;
 		self.flags = self.flags | FL_JUMP2;
-		sprint (self, "2");
+		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
+		WriteByte (MSG_BROADCAST, TE_KNIGHTSPIKE);
+		WriteCoord (MSG_BROADCAST, self.origin_x);
+		WriteCoord (MSG_BROADCAST, self.origin_y);
+		WriteCoord (MSG_BROADCAST, self.origin_z);		
 	}
 	else
 	{
@@ -791,7 +800,6 @@ void() PlayerJump =
 	self.button2 = 0;
 // player jumping sound
 	sound (self, CHAN_BODY, "player/plyrjmp8.wav", 1, ATTN_NORM);
-	self.velocity_z = self.velocity_z + 270;
 };
 
 

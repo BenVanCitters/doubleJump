@@ -239,6 +239,13 @@ void() army_die =
 		army_cdie1 ();
 };
 
+void() killTouch = 
+{
+	if(other.takedamage)
+	{
+		army_die();
+	}
+}
 
 /*QUAKED monster_army (1 0 0) (-16 -16 -24) (16 16 40) Ambush
 */
@@ -279,6 +286,6 @@ void() monster_army =
 	self.th_missile = army_atk1;
 	self.th_pain = army_pain;
 	self.th_die = army_die;
-
+	//self.touch = killTouch;
 	walkmonster_start ();
 };

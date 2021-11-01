@@ -5,11 +5,22 @@ With good timing a double jump is almost as powerful as a rocket jump.  You can 
 
 Changes also make the axe and shotgun slightly more powerful to balance the starting loadout.
 
-USE
-===
-This was developed for PC/windows with a Steam install and so far it has only been developed within this environment.  The batch script copyDat.bat will copy the DAT file contatining the modified game mechanics to the correct folders, namely:
+## USE
+This was developed for PC/windows with a Steam install and so far it has only been developed within this environment and I make no gaurantees that it works outside of that.
+
+Copy the `progs.dat` file to
+```
 "c:\Users\%USERNAME%\Saved Games\Nightdive Studios\Quake\mpmod"\progs.dat
 "c:\Users\%USERNAME%\Saved Games\Nightdive Studios\Quake\Id1"\progs.dat
-they can also be copied by hand.
+```
+Once this is done start the mod for single and multiplayer by launching the re-release, opening the console ('`' key) and entering the command: 'game mpmod' and pressing return.
 
-Once this is done wsing the modified gameplay can be achieved for single and multiplayer by launching the re-release, opening the console ('`' key) and entering the command: 'game mpmod' and pressing return.
+
+### BatchScript
+The batch script copyDat.bat will copy the DAT file contatining the modified game mechanics to the correct folders, wait two seconds, and then launch the rerelease. This is helpful during development.
+
+### Thanks
+This mod was developed using the [FTEQuakeC Dev Suite](https://fte.triptohell.info/downloads)
+
+
+Big thanks to Dan The Man & JPiolho!

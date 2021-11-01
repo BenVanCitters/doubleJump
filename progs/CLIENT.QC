@@ -722,6 +722,19 @@ void() PlayerDeathThink =
 };
 
 
+void(vector pos) rndJumpVFX = 
+{
+	local float rndx, rndy;
+	rndx = pos_x + (random() - 0.5)*40;
+	rndy = pos_y + (random() - 0.5)*40;
+	//rndz = pos_z + random()*100;
+	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
+	WriteByte (MSG_BROADCAST, TE_KNIGHTSPIKE);
+	WriteCoord (MSG_BROADCAST, rndx);
+	WriteCoord (MSG_BROADCAST, rndy);
+	WriteCoord (MSG_BROADCAST, pos_z);	
+}
+
 void() PlayerJump =
 {
 	
@@ -786,11 +799,13 @@ void() PlayerJump =
 		
 		self.velocity_z = self.velocity_z + 280;
 		self.flags = self.flags | FL_JUMP2;
-		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
-		WriteByte (MSG_BROADCAST, TE_KNIGHTSPIKE);
-		WriteCoord (MSG_BROADCAST, self.origin_x);
-		WriteCoord (MSG_BROADCAST, self.origin_y);
-		WriteCoord (MSG_BROADCAST, self.origin_z);		
+		//make a special fx shower
+		rndJumpVFX(self.origin);
+		rndJumpVFX(self.origin);
+		rndJumpVFX(self.origin);
+		rndJumpVFX(self.origin);
+		rndJumpVFX(self.origin);
+		rndJumpVFX(self.origin);
 	}
 	else
 	{
